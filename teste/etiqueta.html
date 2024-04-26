@@ -1,0 +1,150 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>DYMO Label Framework JavaScript Library Samples: Preview and Print Label</title> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src = "dymo.connect.framework.js"></script>
+</head>
+<body>
+    <h1>Imprimir Etiqueta DYMO</h1>
+    
+    <p id="etiqueta">
+        Fornecedor: Maria José
+        Destinatario: João Gomez
+        Valor: R$ 1256,63
+    </p>
+    
+    <button type="button" id="print-btn">Imprimir Etiqueta</button>
+        <br>
+    
+
+    <script>
+        $(document).ready(function() {
+            $('#print-btn').click(function() {
+                
+                // Construir o XML da etiqueta
+                var labelXml = '<?xml version="1.0" encoding="utf-8"?>\
+<DesktopLabel Version="1">\
+  <DYMOLabel Version="3">\
+    <Description>DYMO Label</Description>\
+    <Orientation>Portrait</Orientation>\
+    <LabelName>LargeShippingS0719190</LabelName>\
+    <InitialLength>0</InitialLength>\
+    <BorderStyle>SolidLine</BorderStyle>\
+    <DYMORect>\
+      <DYMOPoint>\
+        <X>0.0366666</X>\
+        <Y>0.2333333</Y>\
+      </DYMOPoint>\
+      <Size>\
+        <Width>2.216667</Width>\
+        <Height>3.706667</Height>\
+      </Size>\
+    </DYMORect>\
+    <BorderColor>\
+      <SolidColorBrush>\
+        <Color A="1" R="0" G="0" B="0"></Color>\
+      </SolidColorBrush>\
+    </BorderColor>\
+    <BorderThickness>1</BorderThickness>\
+    <Show_Border>False</Show_Border>\
+    <DynamicLayoutManager>\
+      <RotationBehavior>ClearObjects</RotationBehavior>\
+      <LabelObjects>\
+        <TextObject>\
+          <Name>TextObject0</Name>\
+          <Brushes>\
+            <BackgroundBrush>\
+              <SolidColorBrush>\
+                <Color A="0" R="0" G="0" B="0"></Color>\
+              </SolidColorBrush>\
+            </BackgroundBrush>\
+            <BorderBrush>\
+              <SolidColorBrush>\
+                <Color A="1" R="0" G="0" B="0"></Color>\
+              </SolidColorBrush>\
+            </BorderBrush>\
+            <StrokeBrush>\
+              <SolidColorBrush>\
+                <Color A="1" R="0" G="0" B="0"></Color>\
+              </SolidColorBrush>\
+            </StrokeBrush>\
+            <FillBrush>\
+              <SolidColorBrush>\
+                <Color A="0" R="0" G="0" B="0"></Color>\
+              </SolidColorBrush>\
+            </FillBrush>\
+          </Brushes>\
+          <Rotation>Rotation0</Rotation>\
+          <OutlineThickness>1</OutlineThickness>\
+          <IsOutlined>False</IsOutlined>\
+          <BorderStyle>SolidLine</BorderStyle>\
+          <Margin>\
+            <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />\
+          </Margin>\
+          <HorizontalAlignment>Left</HorizontalAlignment>\
+          <VerticalAlignment>Top</VerticalAlignment>\
+          <FitMode>None</FitMode>\
+          <IsVertical>False</IsVertical>\
+          <FormattedText>\
+            <FitMode>None</FitMode>\
+            <HorizontalAlignment>Left</HorizontalAlignment>\
+            <VerticalAlignment>Top</VerticalAlignment>\
+            <IsVertical>False</IsVertical>\
+            <LineTextSpan>\
+              <TextSpan>\
+                <Text>ABC</Text>\
+                <FontInfo>\
+                  <FontName>Segoe UI</FontName>\
+                  <FontSize>12</FontSize>\
+                  <IsBold>False</IsBold>\
+                  <IsItalic>False</IsItalic>\
+                  <IsUnderline>False</IsUnderline>\
+                  <FontBrush>\
+                    <SolidColorBrush>\
+                      <Color A="1" R="0" G="0" B="0"></Color>\
+                    </SolidColorBrush>\
+                  </FontBrush>\
+                </FontInfo>\
+              </TextSpan>\
+            </LineTextSpan>\
+          </FormattedText>\
+          <ObjectLayout>\
+            <DYMOPoint>\
+              <X>0.06893918</X>\
+              <Y>0.6675759</Y>\
+            </DYMOPoint>\
+            <Size>\
+              <Width>2.184394</Width>\
+              <Height>2.355228</Height>\
+            </Size>\
+          </ObjectLayout>\
+        </TextObject>\
+      </LabelObjects>\
+    </DynamicLayoutManager>\
+  </DYMOLabel>\
+  <LabelApplication>Blank</LabelApplication>\
+  <DataTable>\
+    <Columns></Columns>\
+    <Rows></Rows>\
+  </DataTable>\
+</DesktopLabel>';
+          
+                // Imprimir a etiqueta
+                var label = dymo.label.framework.openLabelXml(labelXml);
+                console.log(label.getObjectNames());
+                // Obter os valores dos elementos <p>
+                var dados = $('#etiqueta').text();
+
+                label.setObjectText('TextObject0', dados);
+
+                //var pngData = label.render();
+                //var labelImage = document.getElementById('previewEtiqueta');
+                //labelImage.src = "data:image/png;base64," + pngData; 
+                
+                label.print("DYMO LabelWriter 550");
+            });
+        });
+    </script>
+</body>
+</html>
